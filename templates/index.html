@@ -548,9 +548,192 @@
     transform: scaleY(1.1) !important;
     transition: transform 0.3s ease;
 }
+
+/* Dark/Light Mode Toggle Styles */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode Styles */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3a3a3a;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #888888;
+    --border-color: #444444;
+    --accent-color: #4a9eff;
+    --success-color: #4caf50;
+    --danger-color: #f44336;
+    --warning-color: #ff9800;
+    --card-bg: #2d2d2d;
+    --card-hover: #3a3a3a;
+}
+
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --accent-color: #3498db;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --card-bg: #ffffff;
+    --card-hover: #f8f9fa;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .container {
+    background: rgba(45, 45, 45, 0.95);
+}
+
+[data-theme="dark"] .upload-section {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .upload-section:hover {
+    border-color: var(--accent-color);
+    background: #333333;
+}
+
+[data-theme="dark"] .algorithm-card {
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .algorithm-card:hover {
+    background: var(--card-hover);
+}
+
+[data-theme="dark"] .algorithm-card.selected {
+    background: #1e3a8a;
+    border-color: var(--accent-color);
+}
+
+[data-theme="dark"] .algorithm-name {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .algorithm-desc {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .best-for {
+    background: #1f2937;
+    color: #10b981;
+    border-left-color: #10b981;
+}
+
+[data-theme="dark"] .file-types {
+    background: #374151;
+    color: #fbbf24;
+    border-left-color: #fbbf24;
+}
+
+[data-theme="dark"] .stats-section {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+}
+
+[data-theme="dark"] .download-section {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .file-info {
+    background: #1f2937;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .file-info h4 {
+    color: var(--success-color);
+}
+
+[data-theme="dark"] .algorithm-info {
+    background: #1e3a8a;
+    border-left-color: #3b82f6;
+}
+
+[data-theme="dark"] .algorithm-info-title {
+    color: #93c5fd;
+}
+
+[data-theme="dark"] .algorithm-info-text {
+    color: #bfdbfe;
+}
+
+[data-theme="dark"] .chart-section {
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] .chart-title {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .bar-label {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: rgba(45, 45, 45, 0.9);
+    color: var(--text-primary);
+}
+
+/* Auto-detect card dark mode */
+[data-theme="dark"] .algorithm-card.auto-detect {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .algorithm-card.auto-detect.selected {
+    border-color: #a855f7;
+    background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 50%, #a78bfa 100%);
+}
+
+[data-theme="dark"] .algorithm-card.auto-detect .algorithm-name {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .algorithm-card.auto-detect .algorithm-desc {
+    color: #e5e7eb;
+}
+
+
     </style>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+    <span id="themeIcon">🌙</span>
+    <span id="themeText">Dark</span>
+</button>
     <div class="container">
         <div class="header">
             <h1>🗜️ Data Compression Portal</h1>
@@ -929,6 +1112,39 @@ function updateChart(originalSize, processedSize) {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
+
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeToggle(savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeToggle(newTheme);
+}
+
+function updateThemeToggle(theme) {
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+    
+    if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+    } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initTheme);
+window.addEventListener('load', initTheme);
+
     </script>
 </body>
 </html>
