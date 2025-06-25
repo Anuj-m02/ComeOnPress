@@ -830,6 +830,84 @@
     color: var(--text-primary);
 }
 
+.read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-top: 12px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.read-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2980b9, #3498db);
+}
+
+.read-more-btn:active {
+    transform: translateY(0);
+}
+
+/* Different colors for each algorithm */
+.read-more-huffman {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
+}
+
+.read-more-huffman:hover {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+}
+
+.read-more-lz77 {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.read-more-lz77:hover {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+}
+
+.read-more-rle {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+}
+
+.read-more-rle:hover {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+}
+
+.read-more-deflate {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    box-shadow: 0 2px 8px rgba(155, 89, 182, 0.3);
+}
+
+.read-more-deflate:hover {
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+}
+
+/* Dark mode read more buttons */
+[data-theme="dark"] .read-more-btn {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .read-more-btn:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
     </style>
 </head>
 <body>
@@ -912,6 +990,9 @@
                             <div class="file-types-label">📄 Recommended Files:</div>
                             .txt, .html, .xml, .json, .csv, .log, .py, .js, .css
                         </div>
+                        <a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" class="read-more-btn read-more-huffman">
+    📖 Read More <span>↗</span>
+</a>
                     </label>
                 </div>
 
@@ -931,6 +1012,9 @@
                             <div class="file-types-label">📄 Recommended Files:</div>
                             .exe, .dll, .bin, .bmp, .wav, .rar, .zip (already compressed)
                         </div>
+                        <a href="https://en.wikipedia.org/wiki/LZ77_and_LZ78" target="_blank" class="read-more-btn read-more-lz77">
+    📖 Read More <span>↗</span>
+</a>
                     </label>
                 </div>
 
@@ -950,6 +1034,9 @@
                             <div class="file-types-label">📄 Recommended Files:</div>
                             .bmp, .pcx, .tga, .ppm, simple graphics, monochrome images
                         </div>
+                        <a href="https://en.wikipedia.org/wiki/Run-length_encoding" target="_blank" class="read-more-btn read-more-rle">
+    📖 Read More <span>↗</span>
+</a>
                     </label>
                 </div>
 
@@ -969,6 +1056,9 @@
                             <div class="file-types-label">📄 Recommended Files:</div>
                             .pdf, .doc, .docx, .ppt, .xlsx, mixed data, any file type
                         </div>
+                        <a href="https://en.wikipedia.org/wiki/Deflate" target="_blank" class="read-more-btn read-more-deflate">
+    📖 Read More <span>↗</span>
+</a>
                     </label>
                 </div>
             </div>
