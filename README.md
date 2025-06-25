@@ -169,26 +169,6 @@ Response:
 ![Stats Visualization](assets/Screenshot-2025-06-25-145647.png)
 ---
 
-## 📊 Performance Benchmarks
-
-### 🏆 Compression Efficiency by File Type
-
-| File Type | Algorithm Used | Typical Compression | Speed | Use Case |
-|-----------|----------------|-------------------|-------|----------|
-| 📄 Text Files (`.txt`, `.log`) | Huffman | **40–60%** | ⚡ Fast | Source code, logs |
-| 🌐 Web Files (`.html`, `.xml`) | Huffman | **60–80%** | ⚡ Fast | Web pages, configs |
-| 🖼️ Bitmap Images (`.bmp`) | RLE | **50–90%** | ⚡⚡ Very Fast | Screenshots, graphics |
-| ⚙️ Executables (`.exe`) | LZ77 | **20–40%** | 🐌 Slower | Binary files |
-| 📋 Documents (`.pdf`, `.docx`) | Deflate | **30–60%** | ⚡ Fast | Mixed content |
-
-### ⏱️ Processing Speed Benchmarks
-
-| File Size Range | Processing Time | Performance Level |
-|-----------------|----------------|-------------------|
-| **< 1MB** | ~0.5s | ⚡⚡⚡ Lightning Fast |
-| **1-10MB** | ~2-5s | ⚡⚡ Very Fast |
-| **10-50MB** | ~5-15s | ⚡ Fast |
-| **> 50MB** | ~15-30s | 🔄 Processing... |
 
 ### 🎯 Real-world Examples
 
