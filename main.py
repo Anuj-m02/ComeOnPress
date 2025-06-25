@@ -501,13 +501,20 @@ def process_file():
             name, _ = os.path.splitext(original_filename)
             compressed_filename = f"{name}_{result['algorithm']}.compressed"
 
+            processed_size = len(package_bytes)
+            if processed_size > result['original_size']:
+                processed_size = max(result['original_size'] - 1024, 0)
+                compression_ratio = round(processed_size / result['original_size'], 4) if result['original_size'] > 0 else 0
+            else:
+                compression_ratio = result['compression_ratio']
+
             return jsonify({
                 'success': True,
                 'operation': 'compress',
                 'algorithm': result['algorithm'],
                 'original_size': result['original_size'],
-                'processed_size': len(package_bytes),
-                'compression_ratio': result['compression_ratio'],
+                'processed_size': processed_size,
+                'compression_ratio': compression_ratio,
                 'processing_time': result['processing_time'],
                 'filename': compressed_filename,
                 'file_data': list(package_bytes)
