@@ -159,18 +159,14 @@ Response:
 
 ## 🎨 Application Preview
 
-### 📋 File Upload Interface
-![File Upload Interface](assets/file-upload-interface.png)
-*Clean, intuitive file selection with drag-and-drop support and real-time file information display*
-
 ### 🧠 Smart Algorithm Selection
-![Algorithm Selection Cards](assets/algorithm-selection-cards.png)
+![Algorithm Selection Cards](assets/Screenshot-2025-06-25-145632.png)
 *Four powerful compression algorithms with intelligent auto-detection and detailed descriptions*
 
 ### 📊 Real-time Processing Results
-![Processing Results Dashboard](assets/processing-results-dashboard.png)
+![Processing Results Dashboard](assets/Screenshot-2025-06-25-145639.png)
 *Comprehensive statistics with animated charts showing compression performance and visual comparisons*
-
+![Stats Visualization](assets/Screenshot-2025-06-25-145647.png)
 ---
 
 ## 📊 Performance Benchmarks
@@ -303,29 +299,17 @@ Our intelligent system analyzes your file and automatically selects the best alg
 
 ## 👤 About the Developer
 
-<div align="center">
-
-![Profile Badge](https://img.shields.io/badge/Developer-Anuj%20Singh-blue?style=for-the-badge&logo=github)
-
 **🎓 Anuj Singh**  
 *B.Tech Student @ IIT Roorkee*
 
 [![GitHub](https://img.shields.io/badge/GitHub-Anuj--m02-black?style=for-the-badge&logo=github)](https://github.com/Anuj-m02)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/anuj-singh-dev)
 
-**🚀 Expertise**: Data Structures & Algorithms • Python Development • AI/ML • Full-Stack Web Development
+**🚀 Expertise**: Data Structures & Algorithms • Python Development • AI/ML • Competitve Programming
 
 **💡 Passion**: Building innovative solutions that solve real-world problems through efficient algorithms and modern web technologies
 
-</div>
-
 ---
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -334,7 +318,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Made with ❤️ by [Anuj Singh](https://github.com/Anuj-m02)**
 
 [![Star this repo](https://img.shields.io/github/stars/Anuj-m02/ComeOnPress?style=social)](https://github.com/Anuj-m02/ComeOnPress)
-[![Fork this repo](https://img.shields.io/github/forks/Anuj-m02/ComeOnPress?style=social)](https://github.com/Anuj-m02/ComeOnPress/fork)
 
 *⭐ If this project helped you, please consider giving it a star!*
 
