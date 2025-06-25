@@ -726,6 +726,109 @@
     color: #e5e7eb;
 }
 
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pie-chart-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.pie-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    background: conic-gradient(
+        from 0deg,
+        #e74c3c 0deg 0deg,
+        #27ae60 0deg 360deg
+    );
+    transform: rotate(-90deg);
+    animation: pieRotate 2s ease-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pieRotate {
+    from { transform: rotate(-90deg) scale(0); }
+    to { transform: rotate(-90deg) scale(1); }
+}
+
+.pie-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #2c3e50;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-out 1.5s backwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) rotate(90deg) scale(0); }
+    to { opacity: 1; transform: translate(-50%, -50%) rotate(90deg) scale(1); }
+}
+
+.pie-legend {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    animation: slideUp 0.8s ease-out 1.8s backwards;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85em;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.legend-original {
+    background: #e74c3c;
+}
+
+.legend-processed {
+    background: #27ae60;
+}
+
+/* Dark mode pie chart */
+[data-theme="dark"] .pie-center {
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .legend-item {
+    color: var(--text-primary);
+}
 
     </style>
 </head>
@@ -925,21 +1028,39 @@
             <div class="chart-section" id="chartSection">
     <h2 class="chart-title">📊 Size Comparison Chart</h2>
     <div class="chart-container">
-        <div class="bar-chart">
-            <div class="bar-item">
-                <div class="bar bar-original" id="barOriginal">
-                    <div class="bar-value" id="barOriginalValue">0 KB</div>
-                </div>
-                <div class="bar-label">Original Size</div>
+    <div class="pie-chart-container">
+        <div class="pie-chart">
+            <div class="pie-center">
+                <div id="pieCompressionRatio">0%</div>
+                <div id="pieSaved" style="font-size: 0.7em; opacity: 0.8;">Saved</div>
             </div>
-            <div class="bar-item">
-                <div class="bar bar-processed" id="barProcessed">
-                    <div class="bar-value" id="barProcessedValue">0 KB</div>
-                </div>
-                <div class="bar-label">Processed Size</div>
+        </div>
+        <div class="pie-legend">
+            <div class="legend-item">
+                <div class="legend-color legend-original"></div>
+                <span>Original</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-processed"></div>
+                <span>Compressed</span>
             </div>
         </div>
     </div>
+    <div class="bar-chart">
+        <div class="bar-item">
+            <div class="bar bar-original" id="barOriginal">
+                <div class="bar-value" id="barOriginalValue">0 KB</div>
+            </div>
+            <div class="bar-label">Original Size</div>
+        </div>
+        <div class="bar-item">
+            <div class="bar bar-processed" id="barProcessed">
+                <div class="bar-value" id="barProcessedValue">0 KB</div>
+            </div>
+            <div class="bar-label">Processed Size</div>
+        </div>
+    </div>
+</div>
 </div>
 
             <!-- Download Section -->
@@ -987,7 +1108,7 @@ function updateChart(originalSize, processedSize) {
     const originalHeight = (originalSize / maxSize) * 200;
     const processedHeight = (processedSize / maxSize) * 200;
     
-    // Set heights immediately (bars will animate via CSS)
+    // Update bar chart
     document.getElementById('barOriginal').style.height = originalHeight + 'px';
     document.getElementById('barProcessed').style.height = processedHeight + 'px';
     document.getElementById('barOriginal').style.transform = 'scaleY(1)';
@@ -996,7 +1117,32 @@ function updateChart(originalSize, processedSize) {
     document.getElementById('barOriginalValue').textContent = formatFileSize(originalSize);
     document.getElementById('barProcessedValue').textContent = formatFileSize(processedSize);
     
+    // Update pie chart
+    updatePieChart(originalSize, processedSize);
+    
     document.getElementById('chartSection').style.display = 'block';
+}
+
+function updatePieChart(originalSize, processedSize) {
+    const total = originalSize + processedSize;
+    const originalPercent = (originalSize / total) * 100;
+    const processedPercent = (processedSize / total) * 100;
+    
+    const pieChart = document.querySelector('.pie-chart');
+    const compressionRatio = ((originalSize - processedSize) / originalSize * 100).toFixed(1);
+    
+    // Animate pie chart
+    setTimeout(() => {
+        pieChart.style.background = `conic-gradient(
+            from 0deg,
+            #e74c3c 0deg ${originalPercent * 3.6}deg,
+            #27ae60 ${originalPercent * 3.6}deg 360deg
+        )`;
+    }, 800);
+    
+    // Update center text
+    document.getElementById('pieCompressionRatio').textContent = compressionRatio + '%';
+    document.getElementById('pieSaved').textContent = 'Saved';
 }
 
         function formatFileSize(bytes) {
