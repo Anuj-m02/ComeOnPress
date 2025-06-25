@@ -425,6 +425,129 @@
                 grid-template-columns: 1fr;
             }
         }
+.chart-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    display: none;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-top: 20px;
+}
+
+.bar-chart {
+    display: flex;
+    align-items: end;
+    height: 100%;
+    gap: 40px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.bar {
+    width: 80px;
+    min-height: 20px;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    margin-bottom: 10px;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.bar-original {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    animation: growBar 1.5s ease-out 0.3s forwards, pulse 2s infinite 2s;
+}
+
+.bar-processed {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    animation: growBar 1.5s ease-out 0.6s forwards, pulse 2s infinite 2.3s;
+}
+
+@keyframes growBar {
+    0% { transform: scaleY(0) rotateX(90deg); }
+    50% { transform: scaleY(1.1) rotateX(0deg); }
+    100% { transform: scaleY(1) rotateX(0deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scaleY(1); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); }
+    50% { transform: scaleY(1.05); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+}
+
+.bar-label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 1s forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bar-value {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: 600;
+    white-space: nowrap;
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.2s forwards;
+}
+
+@keyframes popIn {
+    0% { transform: translateX(-50%) scale(0) rotate(180deg); }
+    100% { transform: translateX(-50%) scale(1) rotate(0deg); }
+}
+
+.chart-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeInDown 0.8s ease-out 0.2s forwards;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bar:hover {
+    transform: scaleY(1.1) !important;
+    transition: transform 0.3s ease;
+}
     </style>
 </head>
 <body>
@@ -616,6 +739,26 @@
                 </div>
             </div>
 
+            <div class="chart-section" id="chartSection">
+    <h2 class="chart-title">📊 Size Comparison Chart</h2>
+    <div class="chart-container">
+        <div class="bar-chart">
+            <div class="bar-item">
+                <div class="bar bar-original" id="barOriginal">
+                    <div class="bar-value" id="barOriginalValue">0 KB</div>
+                </div>
+                <div class="bar-label">Original Size</div>
+            </div>
+            <div class="bar-item">
+                <div class="bar bar-processed" id="barProcessed">
+                    <div class="bar-value" id="barProcessedValue">0 KB</div>
+                </div>
+                <div class="bar-label">Processed Size</div>
+            </div>
+        </div>
+    </div>
+</div>
+
             <!-- Download Section -->
             <div class="download-section" id="downloadSection">
                 <h3 style="margin-bottom: 20px;">✅ Processing Complete!</h3>
@@ -656,6 +799,22 @@
 
         // Set default selection (auto-detect)
         document.querySelector('.algorithm-card.auto-detect').classList.add('selected');
+function updateChart(originalSize, processedSize) {
+    const maxSize = Math.max(originalSize, processedSize);
+    const originalHeight = (originalSize / maxSize) * 200;
+    const processedHeight = (processedSize / maxSize) * 200;
+    
+    // Set heights immediately (bars will animate via CSS)
+    document.getElementById('barOriginal').style.height = originalHeight + 'px';
+    document.getElementById('barProcessed').style.height = processedHeight + 'px';
+    document.getElementById('barOriginal').style.transform = 'scaleY(1)';
+    document.getElementById('barProcessed').style.transform = 'scaleY(1)';
+    
+    document.getElementById('barOriginalValue').textContent = formatFileSize(originalSize);
+    document.getElementById('barProcessedValue').textContent = formatFileSize(processedSize);
+    
+    document.getElementById('chartSection').style.display = 'block';
+}
 
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
@@ -733,6 +892,9 @@
                         
                         document.getElementById('processingTime').textContent = data.processing_time + 's';
                         document.getElementById('statsSection').style.display = 'block';
+
+
+                        updateChart(data.original_size, data.processed_size);
                         
                         // Prepare download
                         processedFileData = new Uint8Array(data.file_data);
